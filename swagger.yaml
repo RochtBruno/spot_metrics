@@ -1,0 +1,16 @@
+openapi: 3.0.0
+info:
+  title: API de Jogadores de Futebol
+  version: 1.0.0
+paths:
+  /players:
+    get:
+      summary: Listar jogadores
+      responses:
+        200:
+          description: Lista de jogadores
+    post:
+      summary: Criar um jogador
+      responses:
+        201:
+          description: Jogador criado com sucesso
