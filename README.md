@@ -26,10 +26,10 @@ Este projeto é uma API desenvolvida para gerenciar jogadores de futebol. A API 
 ### Passos para Instalação
 
 1. Clone este repositório
-2. Navegue até a pasta do projeto:
+2. Navegue até a pasta do projeto: <br/>
   cd seu-repositorio
-3. Instale as dependências:
+3. Instale as dependências:<br/>
   npm install
-4. Inicie o servidor do banco de dados
+4. Inicie o servidor do banco de dados:<br/>
   node app.js
 5. Utilize o live server do VScode para abrir o index.html para ter uma interface para fazer as funcionalidades do projeto
