@@ -1,5 +1,4 @@
-require("dotenv").config();
-//const apiUrl = "http://localhost:3000";
+const apiUrl = window.location.host;
 
 document
   .getElementById("createForm")
@@ -51,7 +50,7 @@ document
 
 async function listarJogadores() {
   try {
-    const response = await fetch(`${env.API_BASE_URL}/players`);
+    const response = await fetch(`${apiUrl}/players`);
     if (!response.ok) throw new Error("Erro ao carregar a lista de jogadores");
 
     const jogadores = await response.json();
@@ -97,7 +96,7 @@ async function buscarJogador() {
   resultadoBusca.innerHTML = "";
 
   try {
-    const response = await fetch(`${env.API_BASE_URL}/players/${query}`);
+    const response = await fetch(`${apiUrl}/players/${query}`);
     if (!response.ok) throw new Error("Jogador não encontrado");
 
     const jogador = await response.json();
@@ -167,7 +166,7 @@ document
     const drible = document.getElementById("updateDrible").value;
 
     try {
-      const response = await fetch(`${env.API_BASE_URL}/players/${id}`, {
+      const response = await fetch(`${apiUrl}/players/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -207,7 +206,7 @@ document
 
 async function deletarJogador(id) {
   try {
-    const response = await fetch(`${env.API_BASE_URL}/players/${id}`, {
+    const response = await fetch(`${apiUrl}/players/${id}`, {
       method: "DELETE",
     });
 
