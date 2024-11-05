@@ -7,10 +7,11 @@ const express = require("express");
 const YAML = require("yamljs");
 const swaggerDocument = YAML.load("./swagger.yaml");
 const cors = require("cors");
+require('dotenv').config();
 
 mongoose
   .connect(
-    "mongodb+srv://brunotaveirar0382:wjj4lmCRIcjtqMBA@cluster0.2dxxx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+    process.env.DB_URI,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,

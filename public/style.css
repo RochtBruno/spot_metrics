@@ -1,4 +1,4 @@
-body {
+/*body {
   background-color: #292929;
   color: #e8e8e8;
   font-family: Arial, sans-serif;
@@ -75,7 +75,7 @@ input[type="number"]::placeholder {
   margin-top: 9px;
 }
 
-button {
+/* button {
   padding: 12px;
   font-size: 1rem;
   border: none;
@@ -87,8 +87,8 @@ button {
   width: 100%;
   max-width: 200px;
   margin: 10px 0;
-}
-
+} 
+  
 button:hover {
   background-color: #fffe9b;
 }
@@ -146,4 +146,4 @@ button:hover {
   input[type="number"] {
     width: 100%;
   }
-}
+}*/

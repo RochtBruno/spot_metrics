@@ -35,11 +35,12 @@ document
 
       if (!response.ok) throw new Error("Erro ao criar jogador");
 
-      // Limpa os campos do formulário
-      document.getElementById("createForm").reset();
       alert("Jogador criado com sucesso");
-      // Listar jogadores após a criação
       await listarJogadores();
+      const modal = bootstrap.Modal.getInstance(
+        document.getElementById("createPlayerModal")
+      );
+      modal.hide();
     } catch (error) {
       console.error("Erro:", error);
       alert("Erro ao criar jogador. Verifique o console.");
@@ -63,12 +64,25 @@ async function listarJogadores() {
         month: "2-digit",
         day: "2-digit",
       });
-      const li = document.createElement("li");
-      li.innerHTML = `ID: ${jogador.identificador} <br>
-      Nome: ${jogador.nome}<br>
-      Apelido: ${jogador.apelido}<br>
-      Data de Criação: ${dataFormatada}`;
-      jogadoresList.appendChild(li);
+      const card = document.createElement("div");
+      card.classList.add("col-md-4", "mb-4");
+
+      card.innerHTML = `
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">${jogador.nome}</h5>
+          <p class="card-text">
+            <strong>ID:</strong> ${jogador.identificador} <br>
+            <strong>Apelido:</strong> ${jogador.apelido} <br>
+            <strong>Data de Criação:</strong> ${dataFormatada}
+          </p>
+          <button class="btn btn-primary" onclick="abrirModalAtualizar('${jogador.identificador}', '${jogador.nome}', '${jogador.apelido}')">Atualizar</button>
+          <button class="btn btn-danger" onclick="deletarJogador('${jogador.identificador}')">Deletar</button>
+        </div>
+      </div>
+    `;
+
+      jogadoresList.appendChild(card);
     });
   } catch (error) {
     console.error("Erro:", error);
@@ -82,7 +96,6 @@ async function buscarJogador() {
   resultadoBusca.innerHTML = "";
 
   try {
-    // Verifica se o query é um ID e usa a rota específica se for o caso
     const response = await fetch(`${apiUrl}/players/${query}`);
     if (!response.ok) throw new Error("Jogador não encontrado");
 
@@ -97,16 +110,26 @@ async function buscarJogador() {
       }
     );
 
+    // Criar o card com as informações do jogador
     resultadoBusca.innerHTML = `
-      <p><strong>ID:</strong> ${jogador.identificador}</p>
-      <p><strong>Nome:</strong> ${jogador.nome}</p>
-      <p><strong>Apelido:</strong> ${jogador.apelido}</p>
-      <p><strong>Data de Criação:</strong> ${dataCriacao}</p>
-      <p><strong>Força:</strong> ${jogador.habilidades.forca}</p>
-      <p><strong>Velocidade:</strong> ${jogador.habilidades.velocidade}</p>
-      <p><strong>Drible:</strong> ${jogador.habilidades.drible}</p>
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title">${jogador.nome} (${jogador.apelido})</h5>
+          <button id="closeCard" class="btn btn-danger btn-sm float-end">Fechar</button>
+        </div>
+        <div class="card-body">
+          <p class="card-text"><strong>ID:</strong> ${jogador.identificador}</p>
+          <p class="card-text"><strong>Data de Criação:</strong> ${dataCriacao}</p>
+          <p class="card-text"><strong>Força:</strong> ${jogador.habilidades.forca}</p>
+          <p class="card-text"><strong>Velocidade:</strong> ${jogador.habilidades.velocidade}</p>
+          <p class="card-text"><strong>Drible:</strong> ${jogador.habilidades.drible}</p>
+        </div>
+      </div>
     `;
-    document.getElementById("searchQuery").value = "";
+    document.getElementById("closeCard").addEventListener("click", function () {
+      resultadoBusca.innerHTML = ""; // Limpa o conteúdo do card
+      document.getElementById("searchQuery").value = ""; // Limpa a barra de busca
+    });
   } catch (error) {
     console.error("Erro:", error);
     resultadoBusca.innerHTML = `<p>Jogador não encontrado.</p>`;
@@ -114,9 +137,20 @@ async function buscarJogador() {
   }
 }
 
-function limparBusca() {
-  const resultadoBusca = document.getElementById("resultadoBusca");
-  resultadoBusca.innerHTML = "";
+document
+  .getElementById("button-addon2")
+  .addEventListener("click", buscarJogador);
+
+// Função para abrir o modal de atualização e preencher os campos
+function abrirModalAtualizar(id, nome, apelido) {
+  // Preencha os campos com as informações do jogador
+  document.getElementById("updateId").value = id;
+  document.getElementById("updateName").value = nome;
+  document.getElementById("updateNickname").value = apelido;
+
+  // Exibir o modal
+  const modal = new bootstrap.Modal(document.getElementById("staticBackdrop"));
+  modal.show();
 }
 
 document
@@ -152,9 +186,14 @@ document
         alert("Jogador atualizado com sucesso!");
         listarJogadores();
         document.getElementById("updateForm").reset();
+
+        // Fechar o modal após a atualização
+        const modal = bootstrap.Modal.getInstance(
+          document.getElementById("staticBackdrop")
+        );
+        modal.hide();
       } else {
-        const errorData = await response.json();
-        alert(`Erro ao atualizar jogador: preencha os campos corretamente`);
+        alert("Erro ao atualizar jogador: preencha os campos corretamente");
         document.getElementById("updateForm").reset();
       }
     } catch (error) {
@@ -165,31 +204,22 @@ document
     }
   });
 
-document
-  .getElementById("deleteForm")
-  .addEventListener("submit", async (event) => {
-    event.preventDefault();
+async function deletarJogador(id) {
+  try {
+    const response = await fetch(`${apiUrl}/players/${id}`, {
+      method: "DELETE",
+    });
 
-    const id = document.getElementById("deleteId").value;
-
-    try {
-      const response = await fetch(`${apiUrl}/players/${id}`, {
-        method: "DELETE",
-      });
-
-      if (response.ok) {
-        alert("Jogador deletado com sucesso!");
-        listarJogadores();
-        document.getElementById("deleteForm").reset();
-      } else {
-        const errorData = await response.json();
-        alert(`Erro ao deletar jogador`);
-        document.getElementById("deleteForm").reset();
-      }
-    } catch (error) {
-      console.error("Erro na requisição:", error);
-      alert("Erro ao deletar jogador. Verifique o console para mais detalhes.");
+    if (response.ok) {
+      alert("Jogador deletado com sucesso!");
+      listarJogadores(); // Atualiza a lista de jogadores após a exclusão
+    } else {
+      alert("Erro ao deletar jogador");
     }
-  });
+  } catch (error) {
+    console.error("Erro na requisição:", error);
+    alert("Erro ao deletar jogador. Verifique o console para mais detalhes.");
+  }
+}
 
 listarJogadores();
