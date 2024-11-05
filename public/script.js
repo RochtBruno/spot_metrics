@@ -1,4 +1,4 @@
-const apiUrl = "https://fifa-gub-brunos-projects-d032892f.vercel.app/";
+const apiUrl = "http://localhost:3000";
 
 document
   .getElementById("createForm")
