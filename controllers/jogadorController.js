@@ -2,7 +2,6 @@
 const Jogador = require("../models/jogador");
 const Joi = require("joi");
 
-// Validação dos dados do jogador
 const jogadorSchema = Joi.object({
   nome: Joi.string().required(),
   apelido: Joi.string().optional(),
@@ -13,7 +12,6 @@ const jogadorSchema = Joi.object({
   }).required(),
 });
 
-// Criar jogador
 exports.criarJogador = async (req, res) => {
   const { error } = jogadorSchema.validate(req.body);
   if (error) return res.status(400).json({ erro: error.details[0].message });
@@ -26,7 +24,6 @@ exports.criarJogador = async (req, res) => {
   }
 };
 
-// Listar jogadores com busca por nome e apelido
 exports.listarJogadores = async (req, res) => {
   const { nome, apelido, page = 1, limit = 10 } = req.query;
   const query = {};
@@ -44,16 +41,12 @@ exports.listarJogadores = async (req, res) => {
   }
 };
 
-// Buscar jogador por identificador
 exports.buscarJogadorPorId = async (req, res) => {
   try {
-    // Busca o jogador pelo identificador na URL e inclui todas as informações
     const jogador = await Jogador.findOne({ identificador: req.params.id });
-
     if (!jogador) {
       return res.status(404).json({ erro: "Jogador não encontrado" });
     }
-
     res.json(jogador);
   } catch (err) {
     console.error("Erro ao buscar jogador:", err);
@@ -61,7 +54,6 @@ exports.buscarJogadorPorId = async (req, res) => {
   }
 };
 
-// Atualizar jogador
 exports.atualizarJogador = async (req, res) => {
   const { error } = jogadorSchema.validate(req.body);
   if (error) return res.status(400).json({ erro: error.details[0].message });
@@ -80,7 +72,6 @@ exports.atualizarJogador = async (req, res) => {
   }
 };
 
-// Remover jogador
 exports.removerJogador = async (req, res) => {
   try {
     const jogador = await Jogador.findOneAndDelete({

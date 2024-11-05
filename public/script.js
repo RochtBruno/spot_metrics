@@ -1,6 +1,5 @@
 const apiUrl = "http://localhost:3000";
 
-// Função para criar jogador
 document
   .getElementById("createForm")
   .addEventListener("submit", async (event) => {
@@ -17,7 +16,6 @@ document
       return;
     }
 
-    // Tente criar um jogador e depois listar todos os jogadores
     try {
       const response = await fetch(`${apiUrl}/players`, {
         method: "POST",
@@ -49,7 +47,6 @@ document
     }
   });
 
-// Função para listar jogadores
 async function listarJogadores() {
   try {
     const response = await fetch(`${apiUrl}/players`);
@@ -79,7 +76,6 @@ async function listarJogadores() {
   }
 }
 
-//buscar jogador
 async function buscarJogador() {
   const query = document.getElementById("searchQuery").value.trim();
   const resultadoBusca = document.getElementById("resultadoBusca");
@@ -122,7 +118,7 @@ function limparBusca() {
   const resultadoBusca = document.getElementById("resultadoBusca");
   resultadoBusca.innerHTML = "";
 }
-// Função para atualizar jogador
+
 document
   .getElementById("updateForm")
   .addEventListener("submit", async (event) => {
@@ -169,7 +165,6 @@ document
     }
   });
 
-// Função para deletar jogador
 document
   .getElementById("deleteForm")
   .addEventListener("submit", async (event) => {
@@ -197,5 +192,4 @@ document
     }
   });
 
-// Carrega a lista de jogadores ao iniciar a página
 listarJogadores();

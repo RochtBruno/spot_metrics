@@ -9,7 +9,6 @@
   <body>
     <h1>Fifa HUB</h1>
 
-    <!-- Formulário para criar jogador -->
    <div class="container">
     <div class="left">
         <h2>Criar Jogador</h2>
@@ -22,7 +21,6 @@
         <button type="submit">Criar Jogador</button>
       </form>
 
-      <!-- Formulário para atualizar jogador -->
       <h2>Atualizar Jogador</h2>
       <form id="updateForm">
        <input type="text" id="updateId" placeholder="ID do Jogador" required />
@@ -38,7 +36,6 @@
         <button type="submit">Atualizar Jogador</button>
       </form>
 
-      <!-- Formulário para deletar jogador -->
      <h2>Deletar Jogador</h2>
         <form id="deleteForm">
         <input type="text" id="deleteId" placeholder="ID do Jogador" required />
@@ -47,15 +44,13 @@
 
     </div>
     <div class="right">
-         <!-- Seção de busca de jogador -->
       <h2>Buscar Jogador</h2>
       <input type="text" id="searchQuery" placeholder="ID do Jogador" />
       <button onclick="buscarJogador()">Buscar Jogador</button>
       <button onclick="limparBusca()">Limpar Busca</button>
       <h3>Resultado da Busca</h3>
       <div id="resultadoBusca"></div>
-  
-      <!-- Lista de jogadores -->
+      
       <h2>Lista de Jogadores</h2>
       <ul id="jogadoresList"></ul>
     </div>

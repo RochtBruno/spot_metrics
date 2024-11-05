@@ -9,8 +9,59 @@ paths:
       responses:
         200:
           description: Lista de jogadores
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Player"
     post:
       summary: Criar um jogador
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlayerInput"
       responses:
         201:
           description: Jogador criado com sucesso
+        400:
+          description: Erro na validação dos dados
+components:
+  schemas:
+    Player:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "9a9e9858-1c7f-41a7-8a73-fb3679913d87"
+        nome:
+          type: string
+          example: "Piu"
+        apelido:
+          type: string
+          example: "Piupiu"
+        dataCriacao:
+          type: string
+          format: date
+          example: "2024-11-04"
+    PlayerInput:
+      type: object
+      required:
+        - nome
+        - apelido
+        - forca
+        - velocidade
+        - drible
+      properties:
+        nome:
+          type: string
+        apelido:
+          type: string
+        forca:
+          type: integer
+        velocidade:
+          type: integer
+        drible:
+          type: integer
