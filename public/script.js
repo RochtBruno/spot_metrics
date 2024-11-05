@@ -1,4 +1,5 @@
-const apiUrl = "http://localhost:3000";
+require("dotenv").config();
+//const apiUrl = "http://localhost:3000";
 
 document
   .getElementById("createForm")
@@ -17,7 +18,7 @@ document
     }
 
     try {
-      const response = await fetch(`${apiUrl}/players`, {
+      const response = await fetch(`${env.API_BASE_URL}/players`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -50,7 +51,7 @@ document
 
 async function listarJogadores() {
   try {
-    const response = await fetch(`${apiUrl}/players`);
+    const response = await fetch(`${env.API_BASE_URL}/players`);
     if (!response.ok) throw new Error("Erro ao carregar a lista de jogadores");
 
     const jogadores = await response.json();
@@ -96,7 +97,7 @@ async function buscarJogador() {
   resultadoBusca.innerHTML = "";
 
   try {
-    const response = await fetch(`${apiUrl}/players/${query}`);
+    const response = await fetch(`${env.API_BASE_URL}/players/${query}`);
     if (!response.ok) throw new Error("Jogador não encontrado");
 
     const jogador = await response.json();
@@ -166,7 +167,7 @@ document
     const drible = document.getElementById("updateDrible").value;
 
     try {
-      const response = await fetch(`${apiUrl}/players/${id}`, {
+      const response = await fetch(`${env.API_BASE_URL}/players/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -206,7 +207,7 @@ document
 
 async function deletarJogador(id) {
   try {
-    const response = await fetch(`${apiUrl}/players/${id}`, {
+    const response = await fetch(`${env.API_BASE_URL}/players/${id}`, {
       method: "DELETE",
     });
 
