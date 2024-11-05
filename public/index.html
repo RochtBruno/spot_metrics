@@ -1,52 +1,68 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CRUD de Jogadores</title>
-</head>
-<body>
-  <h1>CRUD de Jogadores</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CRUD de Jogadores</title>
+  </head>
+  <body>
+    <h1>CRUD de Jogadores</h1>
 
-  <!-- Formulário para criar jogador -->
-  <h2>Criar Jogador</h2>
-  <form id="createForm">
-    <input type="text" id="name" placeholder="Nome" required />
-    <input type="text" id="nickname" placeholder="Apelido" />
-    <input type="number" id="forca" placeholder="Força" required />
-    <input type="number" id="velocidade" placeholder="Velocidade" required />
-    <input type="number" id="drible" placeholder="Drible" required />
-    <button type="submit">Criar Jogador</button>
-  </form>
+    <!-- Formulário para criar jogador -->
+    <h2>Criar Jogador</h2>
+    <form id="createForm">
+      <input type="text" id="name" placeholder="Nome" required />
+      <input type="text" id="nickname" placeholder="Apelido" />
+      <input type="number" id="forca" placeholder="Força" required />
+      <input type="number" id="velocidade" placeholder="Velocidade" required />
+      <input type="number" id="drible" placeholder="Drible" required />
+      <button type="submit">Criar Jogador</button>
+    </form>
 
-  <hr />
+    <hr />
 
-  <!-- Lista de jogadores -->
-  <h2>Lista de Jogadores</h2>
-  <button onclick="listarJogadores()">Atualizar Lista</button>
-  <ul id="jogadoresList"></ul>
+    <!-- Formulário para atualizar jogador -->
+    <h2>Atualizar Jogador</h2>
+    <form id="updateForm">
+      <input type="text" id="updateId" placeholder="ID do Jogador" required />
+      <input type="text" id="updateName" placeholder="Novo Nome" />
+      <input type="text" id="updateNickname" placeholder="Novo Apelido" />
+      <input type="number" id="updateForca" placeholder="Nova Força" />
+      <input
+        type="number"
+        id="updateVelocidade"
+        placeholder="Nova Velocidade"
+      />
+      <input type="number" id="updateDrible" placeholder="Novo Drible" />
+      <button type="submit">Atualizar Jogador</button>
+    </form>
 
-  <!-- Formulário para atualizar jogador -->
-  <h2>Atualizar Jogador</h2>
-  <form id="updateForm">
-    <input type="text" id="updateId" placeholder="ID do Jogador" required />
-    <input type="text" id="updateName" placeholder="Novo Nome" />
-    <input type="text" id="updateNickname" placeholder="Novo Apelido" />
-    <input type="number" id="updateForca" placeholder="Nova Força" />
-    <input type="number" id="updateVelocidade" placeholder="Nova Velocidade" />
-    <input type="number" id="updateDrible" placeholder="Novo Drible" />
-    <button type="submit">Atualizar Jogador</button>
-  </form>
+    <hr />
 
-  <hr />
+    <!-- Formulário para deletar jogador -->
+    <h2>Deletar Jogador</h2>
+    <form id="deleteForm">
+      <input type="text" id="deleteId" placeholder="ID do Jogador" required />
+      <button type="submit">Deletar Jogador</button>
+    </form>
 
-  <!-- Formulário para deletar jogador -->
-  <h2>Deletar Jogador</h2>
-  <form id="deleteForm">
-    <input type="text" id="deleteId" placeholder="ID do Jogador" required />
-    <button type="submit">Deletar Jogador</button>
-  </form>
+    <hr />
 
-  <script src="script.js"></script>
-</body>
+    <!-- Seção de busca de jogador -->
+    <h2>Buscar Jogador</h2>
+    <input type="text" id="searchQuery" placeholder="ID do Jogador" />
+    <button onclick="buscarJogador()">Buscar Jogador</button>
+    <button onclick="limparBusca()">Limpar Busca</button>
+
+    <h3>Resultado da Busca</h3>
+    <div id="resultadoBusca"></div>
+
+    <hr />
+
+    <!-- Lista de jogadores -->
+    <h2>Lista de Jogadores</h2>
+    <ul id="jogadoresList"></ul>
+
+    <script src="script.js"></script>
+  </body>
 </html>

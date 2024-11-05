@@ -6,7 +6,7 @@ const swaggerUi = require("swagger-ui-express");
 const express = require("express");
 const YAML = require("yamljs");
 const swaggerDocument = YAML.load("./swagger.yaml");
-//const cors = require("cors");
+const cors = require("cors");
 
 // Conectando ao MongoDB Atlas
 mongoose
@@ -25,8 +25,9 @@ mongoose
   });
 
 const app = express();
+app.use(cors());
 app.use(express.json()); // Para entender o corpo da requisição como JSON
-//app.use(cors());
+
 // Configuração das rotas
 app.use("/players", jogadorRoutes); // Use a variável correta aqui
 

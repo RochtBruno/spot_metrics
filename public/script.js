@@ -13,9 +13,9 @@ document
     const drible = document.getElementById("drible").value;
 
     if (!name || !forca || !velocidade || !drible) {
-        alert("Por favor, preencha todos os campos obrigatórios.");
-        return;
-      }
+      alert("Por favor, preencha todos os campos obrigatórios.");
+      return;
+    }
 
     // Tente criar um jogador e depois listar todos os jogadores
     try {
@@ -50,31 +50,74 @@ document
 
 // Função para listar jogadores
 async function listarJogadores() {
-    try {
-      const response = await fetch(`${apiUrl}/players`);
-      if (!response.ok) throw new Error("Erro ao carregar a lista de jogadores");
-  
-      const jogadores = await response.json();
-      const jogadoresList = document.getElementById("jogadoresList");
-      jogadoresList.innerHTML = "";
-  
-      jogadores.forEach((jogador) => {
-        const dataCriacao = new Date(jogador.data_criacao); // Converter a data para objeto Date
-        const dataFormatada = dataCriacao.toLocaleDateString("pt-BR", {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-        });
-        const li = document.createElement("li");
-        li.textContent = `ID: ${jogador.identificador}, Nome: ${jogador.nome}, Apelido: ${jogador.apelido}, Data de Criação: ${dataFormatada}`;
-        jogadoresList.appendChild(li);
+  try {
+    const response = await fetch(`${apiUrl}/players`);
+    if (!response.ok) throw new Error("Erro ao carregar a lista de jogadores");
+
+    const jogadores = await response.json();
+    const jogadoresList = document.getElementById("jogadoresList");
+    jogadoresList.innerHTML = "";
+
+    jogadores.forEach((jogador) => {
+      const dataCriacao = new Date(jogador.data_criacao); // Converter a data para objeto Date
+      const dataFormatada = dataCriacao.toLocaleDateString("pt-BR", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
       });
-    } catch (error) {
-      console.error("Erro:", error);
-      alert("Erro ao carregar jogadores. Verifique o console.");
-    }
+      const li = document.createElement("li");
+      li.textContent = `ID: ${jogador.identificador}, Nome: ${jogador.nome}, Apelido: ${jogador.apelido}, Data de Criação: ${dataFormatada}`;
+      jogadoresList.appendChild(li);
+    });
+  } catch (error) {
+    console.error("Erro:", error);
+    alert("Erro ao carregar jogadores. Verifique o console.");
   }
-  
+}
+
+//buscar jogador
+async function buscarJogador() {
+  const query = document.getElementById("searchQuery").value.trim();
+  const resultadoBusca = document.getElementById("resultadoBusca");
+  resultadoBusca.innerHTML = "";
+
+  try {
+    // Verifica se o query é um ID e usa a rota específica se for o caso
+    const response = await fetch(`${apiUrl}/players/${query}`);
+    if (!response.ok) throw new Error("Jogador não encontrado");
+
+    const jogador = await response.json();
+
+    const dataCriacao = new Date(jogador.data_criacao).toLocaleDateString(
+      "pt-BR",
+      {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      }
+    );
+
+    resultadoBusca.innerHTML = `
+      <p><strong>ID:</strong> ${jogador.identificador}</p>
+      <p><strong>Nome:</strong> ${jogador.nome}</p>
+      <p><strong>Apelido:</strong> ${jogador.apelido}</p>
+      <p><strong>Data de Criação:</strong> ${dataCriacao}</p>
+      <p><strong>Força:</strong> ${jogador.habilidades.forca}</p>
+      <p><strong>Velocidade:</strong> ${jogador.habilidades.velocidade}</p>
+      <p><strong>Drible:</strong> ${jogador.habilidades.drible}</p>
+    `;
+    document.getElementById("searchQuery").value = "";
+  } catch (error) {
+    console.error("Erro:", error);
+    resultadoBusca.innerHTML = `<p>Jogador não encontrado.</p>`;
+    document.getElementById("searchQuery").value = "";
+  }
+}
+
+function limparBusca() {
+  const resultadoBusca = document.getElementById("resultadoBusca");
+  resultadoBusca.innerHTML = "";
+}
 // Função para atualizar jogador
 document
   .getElementById("updateForm")
@@ -108,6 +151,7 @@ document
       if (response.ok) {
         alert("Jogador atualizado com sucesso!");
         listarJogadores();
+        document.getElementById("updateForm").reset();
       } else {
         const errorData = await response.json();
         alert(
@@ -140,6 +184,7 @@ document
       if (response.ok) {
         alert("Jogador deletado com sucesso!");
         listarJogadores();
+        document.getElementById("deleteForm").reset();
       } else {
         const errorData = await response.json();
         alert(
