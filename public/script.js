@@ -39,12 +39,13 @@ document
 
       // Limpa os campos do formulário
       document.getElementById("createForm").reset();
-
+      alert("Jogador criado com sucesso");
       // Listar jogadores após a criação
       await listarJogadores();
     } catch (error) {
       console.error("Erro:", error);
       alert("Erro ao criar jogador. Verifique o console.");
+      document.getElementById("createForm").reset();
     }
   });
 
@@ -66,7 +67,10 @@ async function listarJogadores() {
         day: "2-digit",
       });
       const li = document.createElement("li");
-      li.textContent = `ID: ${jogador.identificador}, Nome: ${jogador.nome}, Apelido: ${jogador.apelido}, Data de Criação: ${dataFormatada}`;
+      li.innerHTML = `ID: ${jogador.identificador} <br>
+      Nome: ${jogador.nome}<br>
+      Apelido: ${jogador.apelido}<br>
+      Data de Criação: ${dataFormatada}`;
       jogadoresList.appendChild(li);
     });
   } catch (error) {
@@ -154,11 +158,8 @@ document
         document.getElementById("updateForm").reset();
       } else {
         const errorData = await response.json();
-        alert(
-          `Erro ao atualizar jogador: ${
-            errorData.message || "Erro desconhecido"
-          }`
-        );
+        alert(`Erro ao atualizar jogador: preencha os campos corretamente`);
+        document.getElementById("updateForm").reset();
       }
     } catch (error) {
       console.error("Erro na requisição:", error);
@@ -187,9 +188,8 @@ document
         document.getElementById("deleteForm").reset();
       } else {
         const errorData = await response.json();
-        alert(
-          `Erro ao deletar jogador: ${errorData.message || "Erro desconhecido"}`
-        );
+        alert(`Erro ao deletar jogador`);
+        document.getElementById("deleteForm").reset();
       }
     } catch (error) {
       console.error("Erro na requisição:", error);
