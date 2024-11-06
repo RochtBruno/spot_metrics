@@ -17,7 +17,7 @@ document
     }
 
     try {
-      const response = await fetch(`${apiUrlL}/players`, {
+      const response = await fetch(`${apiUrl}/players`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,6 +36,7 @@ document
       if (!response.ok) throw new Error("Erro ao criar jogador");
 
       alert("Jogador criado com sucesso");
+      document.getElementById("createForm").reset();
       await listarJogadores();
       const modal = bootstrap.Modal.getInstance(
         document.getElementById("createPlayerModal")
@@ -110,7 +111,6 @@ async function buscarJogador() {
       }
     );
 
-    // Criar o card com as informações do jogador
     resultadoBusca.innerHTML = `
       <div class="card">
         <div class="card-header">
@@ -127,8 +127,8 @@ async function buscarJogador() {
       </div>
     `;
     document.getElementById("closeCard").addEventListener("click", function () {
-      resultadoBusca.innerHTML = ""; // Limpa o conteúdo do card
-      document.getElementById("searchQuery").value = ""; // Limpa a barra de busca
+      resultadoBusca.innerHTML = "";
+      document.getElementById("searchQuery").value = "";
     });
   } catch (error) {
     console.error("Erro:", error);
@@ -141,14 +141,12 @@ document
   .getElementById("button-addon2")
   .addEventListener("click", buscarJogador);
 
-// Função para abrir o modal de atualização e preencher os campos
 function abrirModalAtualizar(id, nome, apelido) {
-  // Preencha os campos com as informações do jogador
+
   document.getElementById("updateId").value = id;
   document.getElementById("updateName").value = nome;
   document.getElementById("updateNickname").value = apelido;
 
-  // Exibir o modal
   const modal = new bootstrap.Modal(document.getElementById("staticBackdrop"));
   modal.show();
 }
@@ -187,7 +185,6 @@ document
         listarJogadores();
         document.getElementById("updateForm").reset();
 
-        // Fechar o modal após a atualização
         const modal = bootstrap.Modal.getInstance(
           document.getElementById("staticBackdrop")
         );
