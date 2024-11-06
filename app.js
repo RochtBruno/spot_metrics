@@ -7,16 +7,13 @@ const express = require("express");
 const YAML = require("yamljs");
 const swaggerDocument = YAML.load("./swagger.yaml");
 const cors = require("cors");
-require('dotenv').config();
+//require("dotenv").config();
 
 mongoose
-  .connect(
-    process.env.DB_URI,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
+  .connect("mongodb+srv://brunotaveirar0382:wjj4lmCRIcjtqMBA@cluster0.2dxxx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log("Conectado ao MongoDB Atlas");
   })
@@ -27,6 +24,10 @@ mongoose
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.json({ ok: true });
+});
 
 app.use("/players", jogadorRoutes);
 

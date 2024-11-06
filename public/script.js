@@ -1,4 +1,4 @@
-const apiUrl = window.location.host;
+const apiUrl = "http://localhost:3000";
 
 document
   .getElementById("createForm")
@@ -17,7 +17,7 @@ document
     }
 
     try {
-      const response = await fetch(`${env.API_BASE_URL}/players`, {
+      const response = await fetch(`${apiUrlL}/players`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
